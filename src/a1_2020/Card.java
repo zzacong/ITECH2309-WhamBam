@@ -5,30 +5,25 @@ public class Card {
 	private String colour;
 	private int value;
 	
-	public Card (String name, String colour, int value)
-	{
+	public Card (String name, String colour, int value) {
 		this.name = name;
 		this.colour = colour;
 		this.value = value;
 	}
 	
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 	
-	public String getColour()
-	{
+	public String getColour() {
 		return colour;
 	}
 	
-	public int getValue()
-	{
+	public int getValue() {
 		return value;
 	}
 	
-	public String toString()
-	{
+	public String toString() {
 		return getName();
 	}
 }
