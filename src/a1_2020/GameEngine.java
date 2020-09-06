@@ -15,7 +15,7 @@ public class GameEngine {
 	private Scanner userInput = new Scanner(System.in);
 
 	public GameEngine() {
-
+		
 	}
 
 	public void play() {
@@ -58,16 +58,23 @@ public class GameEngine {
 		createCards();
 		shuffle();
 		deal();
+		
+		Card card = gameDeck.peek();
+		System.out.println("Placing top card in game deck (" + gameDeck.peek() + ") to in play deck.");
 		inPlayDeck.add(gameDeck.pop());
-
+		System.out.println("Check if card (" + inPlayDeck.peek() + ") is removed from game deck: " + !gameDeck.contains(card));
+		
 		while (!roundComplete) {
 			// if the deck is empty, replenish it
 			if (gameDeck.size() == 0) {
+				System.out.println("All cards are used. Game deck has " + gameDeck.size() + " cards");
 				tempTopCard = inPlayDeck.pop();
+				System.out.println("Temporary top card: " + tempTopCard);
 				for (int i = 0; i < inPlayDeck.size(); i++) {
 					gameDeck.add(inPlayDeck.pop());
 				}
 				shuffle();
+				System.out.println("Done shuffling. Game deck has " + gameDeck.size() + " cards");
 				inPlayDeck.add(tempTopCard);
 			}
 
@@ -183,17 +190,25 @@ public class GameEngine {
 	}
 
 	private void shuffle() {
+		System.out.println("Top card before shuffle: " + gameDeck.peek());
+		System.out.println("Shuffling game deck...");
 		Collections.shuffle(gameDeck);
+		System.out.println("Top card after shuffle: " + gameDeck.peek());
 	}
 
 	private void deal() {
 		player1.clearHand();
 		player2.clearHand();
+		System.out.println("Player 1 has " + player1.getHand().size() + " cards");
+		System.out.println("Player 2 has " + player1.getHand().size() + " cards");
 
 		for (int i = 0; i < STARTING_CARD_COUNT; i++) {
 			player1.pickupCard(gameDeck.pop());
 			player2.pickupCard(gameDeck.pop());
 		}
+		System.out.println("Dealing cards...");
+		System.out.println("Player 1 has " + player1.getHand().size() + " cards");
+		System.out.println("Player 2 has " + player1.getHand().size() + " cards");
 	}
 
 	private Player selectStartingPlayer() {
@@ -205,6 +220,10 @@ public class GameEngine {
 		while (!startingPlayerSelected) {
 			p1card = gameDeck.pop();
 			p2card = gameDeck.pop();
+			
+			System.out.println("Selecting starting player...");
+			System.out.println("Player 1 card: " + p1card);
+			System.out.println("Player 2 card: " + p2card);
 
 			if (p1card.getValue() > p2card.getValue()) {
 				startingPlayer = player1;
@@ -215,6 +234,7 @@ public class GameEngine {
 				startingPlayerSelected = true;
 			}
 		}
+		System.out.println("Starting player: " + startingPlayer.getName());
 		return startingPlayer;
 	}
 
@@ -294,7 +314,7 @@ public class GameEngine {
 		addCardToDeck(new Card ("Purple Seven", "Purple", 7));
 		addCardToDeck(new Card ("Purple Eight", "Purple", 8));
 		addCardToDeck(new Card ("Purple Nine", "Purple", 9));
-		addCardToDeck(new Card ("Purple Zero", "Purple", 0));
+		addCardToDeck(new Card ("Orange Zero", "Orange", 0));
 		addCardToDeck(new Card ("Orange One", "Orange", 1));
 		addCardToDeck(new Card ("Orange Two", "Orange", 2));
 		addCardToDeck(new Card ("Orange Three", "Orange", 3));
@@ -322,6 +342,8 @@ public class GameEngine {
 		addCardToDeck(new Card ("Purple Wham!", "Purple", 10));
 		addCardToDeck(new Card ("Orange Wham!", "Orange", 10));
 		addCardToDeck(new Card ("Orange Wham!", "Orange", 10));
+		
+		System.out.println("Game deck contains " + gameDeck.size() + " cards");
 	}
 
 	private void addCardToDeck(Card theCard) {
@@ -332,7 +354,11 @@ public class GameEngine {
 		System.out.println("Enter Player 1 name: ");
 		player1.setName(userInput.nextLine());
 		System.out.println("Enter Player 2 name: ");
-		player2.setName(userInput.nextLine());		
+		player2.setName(userInput.nextLine());
+		
+		System.out.println("Showing player names...");
+		System.out.println("Player 1: " + player1.getName() + ", Starting score: " + player1.getScore());
+		System.out.println("Player 2: " + player2.getName() + ", Starting score: " + player2.getScore());
 	}
 
 }
