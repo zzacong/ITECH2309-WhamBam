@@ -1,4 +1,4 @@
-package a1_2020;
+package domain;
 
 import java.util.ArrayList;
 public class Player {
@@ -34,10 +34,9 @@ public class Player {
 		hand.add(aCard);
 	}
 	
-	public Card playCard(int cardIndex) {
-		Card toPlay = hand.get(cardIndex);
-		hand.remove(cardIndex);
-		return toPlay;
+	public Card playCard(Card chosenCard) {
+		hand.remove(chosenCard);
+		return chosenCard;
 	}
 	
 	public void clearHand() {
@@ -52,6 +51,26 @@ public class Player {
 		}
 		
 		return value;
+	}
+	
+	public boolean cardInHand(String card) {
+		for (Card handCard : getHand()) {
+			if (handCard.getName().equals(card)) 
+				return true;
+		}
+		return false;
+	}
+	
+	public Card checkHand(String card) {
+		ArrayList<Card> hand = getHand();
+		for (int i = 0; i < hand.size(); i++) {
+			Card handCard = hand.get(i);
+			if (handCard.getName().equals(card)) {
+				return handCard;
+			}
+		}
+		System.out.println("Unable to locate card.  Please make sure you match the card name listed");
+		return null;
 	}
 	
 }
