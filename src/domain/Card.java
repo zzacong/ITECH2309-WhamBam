@@ -51,7 +51,7 @@ public class Card {
 		return getName();
 	}
 	
-	public boolean matchCard(Card otherCard) {
+	public boolean match(Card otherCard) {
 		return matchValue(otherCard) || matchColour(otherCard);
 	}
 	
@@ -63,5 +63,13 @@ public class Card {
 		return this.getColour().equals(otherCard.getColour());
 	}
 	
+	public static String formatCardName(String input) {
+		String[] arr = input.split(" ");	
+		return String.join(" ", capitalised(arr[0]), capitalised(arr[1]));
+	}
+	
+	private static String capitalised(String input) {
+		return input.substring(0,1).toUpperCase() + input.substring(1);
+	}
 	
 }

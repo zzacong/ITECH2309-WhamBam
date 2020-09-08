@@ -5,47 +5,60 @@ public class Player {
 	private String name;
 	private int score = 0;
 	private ArrayList<Card> hand = new ArrayList<Card>();
+	private Card chosenCard;
 	
 	public Player(String name) {
 		this.setName(name);
 	}
 	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 	public String getName() {
 		return name;
 	}
-	
-	public void setScore(int newScore) {
-		score = newScore;
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public int getScore() {	
 		return score;
 	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
 	
+	public Card getChosenCard() {
+		return chosenCard;
+	}
+
+	public void setChosenCard(Card chosenCard) {
+		this.chosenCard = chosenCard;
+	}
+
 	@Override
 	public String toString() {
 		return String.format("%s: %d", getName(), getScore());
 	}
 	
-	public ArrayList<Card> getHand() {
+	private ArrayList<Card> getHand() {
 		return hand;
 	}
 	
+	public String printHand() {
+		return getHand().toString();
+	}
+	
 	public void pickupCard(Card aCard) {
-		hand.add(aCard);
+		getHand().add(aCard);
 	}
 	
 	public Card playCard(Card chosenCard) {
-		hand.remove(chosenCard);
+		getHand().remove(chosenCard);
 		return chosenCard;
 	}
 	
 	public void clearHand() {
-		hand.clear();
+		getHand().clear();
 	}
 	
 	public int calculateValueOfHand() {
@@ -58,22 +71,33 @@ public class Player {
 	
 	public boolean cardInHand(String card) {
 		for (Card handCard : getHand()) {
-			if (handCard.getName().equals(card)) 
-				return true;
+			if (handCard.getName().equalsIgnoreCase(card)) {
+				setChosenCard(handCard);
+				return true;				
+			}
+		}
+		System.out.println("Unable to locate card.  Please make sure you match the card name listed");
+		return false;
+	}
+	
+	public boolean cardInHand(Card card) {
+		for (Card handCard : getHand()) {
+			if (handCard.match(card)) {
+				setChosenCard(handCard);
+				return true;				
+			}
 		}
 		return false;
 	}
 	
-	public Card checkHand(String card) {
-		ArrayList<Card> hand = getHand();
-		for (int i = 0; i < hand.size(); i++) {
-			Card handCard = hand.get(i);
-			if (handCard.getName().equals(card)) {
-				return handCard;
-			}
-		}
-		System.out.println("Unable to locate card.  Please make sure you match the card name listed");
-		return null;
+	public boolean isEmptyHand() {
+		return getHand().isEmpty();
 	}
+	
+	public int getHandSize() {
+		return getHand().size();
+	}
+	
+	
 	
 }

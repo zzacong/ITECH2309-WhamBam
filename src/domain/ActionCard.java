@@ -16,7 +16,13 @@ public class ActionCard extends Card implements Actionable {
 
 	@Override
 	public int cardPenalty() {
+		System.out.println("pick 1 card");
 		return 3;
+	}
+
+	@Override
+	public void penaltyMessage() {
+		System.out.println("Wham Card Active!  Penalty: pick up 3 cards");		
 	}
 
 }

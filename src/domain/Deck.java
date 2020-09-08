@@ -19,7 +19,7 @@ public class Deck {
 	}
 	
 	private Stack<Card> getDeck() {
-		return deck ;
+		return deck;
 	}
 	
 	public Card peek() {
@@ -47,14 +47,15 @@ public class Deck {
 	}
 	
 	public void checkDeckSize(Deck deck) {
-		Stack<Card> otherDeck = deck.getDeck();
+//		Stack<Card> otherDeck = deck.getDeck();
 		Card tempTopCard = null;
 		if (getDeck().isEmpty()) {
-			tempTopCard = otherDeck.pop();
-			getDeck().addAll(otherDeck);
-			otherDeck.clear();
-			this.shuffle();
-			otherDeck.add(tempTopCard);
+			System.out.println("Chop GAMEDECK");
+			tempTopCard = deck.pop();
+			getDeck().addAll(deck.getDeck());
+			deck.clear();
+			shuffle();
+			deck.addCardToDeck(tempTopCard);
 		}		
 	}
 	
@@ -71,23 +72,29 @@ public class Deck {
 	}
 	
 	public void createCards() {
-		boolean hasZero = false;
+		clear();
+		addCardToDeck(new Card("Blue", 0));
+		addCardToDeck(new Card("Green", 0));
+		addCardToDeck(new Card("Purple", 0));
+		addCardToDeck(new Card("Orange", 0));
 		for (int j = 0; j < 2; j++) {
-			for (int i = 0; i < 11; i++) {
-				if (i == 0 && hasZero) {
-					continue;
+			for (int i = 1; i < 11; i++) {
+				if (i < 10) {
+					addCardToDeck(new Card("Blue", i));
+					addCardToDeck(new Card("Green", i));
+					addCardToDeck(new Card("Purple", i));
+					addCardToDeck(new Card("Orange", i));					
 				}
-				if (i == 0) {
-					hasZero = true;
+				else {
+					addCardToDeck(new ActionCard("Blue", i));
+					addCardToDeck(new ActionCard("Green", i));
+					addCardToDeck(new ActionCard("Purple", i));
+					addCardToDeck(new ActionCard("Orange", i));
 				}
-				addCardToDeck(new Card("Blue", i));
-				addCardToDeck(new Card("Green", i));
-				addCardToDeck(new Card("Purple", i));
-				addCardToDeck(new Card("Orange", i));
 			}
 		}
-		System.out.println(toString());
 	}
+	
 	
 	@Override
 	public String toString() {

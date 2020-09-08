@@ -15,8 +15,8 @@ public class PlayerManager {
 	private int turn = 0;
 	
 	private ArrayList<Player> players;
-	private Scanner userInput = new Scanner(System.in);
-	private Player currentPlayer;
+//	private Scanner userInput = new Scanner(System.in);
+//	private Player currentPlayer;
 	private Player winner;
 	private Player champion;
 
@@ -52,46 +52,47 @@ public class PlayerManager {
 		this.champion = champion;
 	}
 
-	public void createPlayer(int numOfPlayer) {
+	public void createPlayer(int numOfPlayer, Scanner userInput) {
 		System.out.println(String.format("Creating %d players ...", numOfPlayer));
 		for (int i = 0; i < numOfPlayer; i++) {
-			System.out.println(String.format("Enter Player %d name: ", i));
+			System.out.println(String.format("\nEnter Player %d name: ", i + 1));
 			String name = userInput.nextLine();
 			if (players.add(new Player(name))) {
-				System.out.println(String.format("Player %d created with starting score = %d ", getPlayer(i), getPlayer(i).getScore()));
+				System.out.println(String.format("Player %s created with starting score = %d", getPlayer(i).getName(), getPlayer(i).getScore()));
 			}
 		}
 	}
 	
-	public Player getTopPlayer() {
-		Player topPlayer = getPlayer(0);
-		int score = topPlayer.getScore();
-
-		for (Player player : getAllPlayers()) {
-			if (player.getScore() > score) {
-				score = player.getScore();
-				topPlayer = player;
-			}
-		}
-		return topPlayer;
-	}
+//	public Player getTopPlayer() {
+//		Player topPlayer = getPlayer(0);
+//		int score = topPlayer.getScore();
+//
+//		for (Player player : getAllPlayers()) {
+//			if (player.getScore() > score) {
+//				score = player.getScore();
+//				topPlayer = player;
+//			}
+//		}
+//		return topPlayer;
+//	}
 	
 	public boolean hasWinningPlayer(int winScore) {
-		Player topPlayer = getTopPlayer();
-		if (topPlayer.getScore() >= 300) {
-			setChampion(topPlayer);
-			return true;
+		for (Player player : getAllPlayers()) {
+			if (player.getScore() >= winScore) {
+				setChampion(player);
+				return true;
+			}
 		}
-		else {
-			setChampion(null);
-			return false;
-		}
+		setChampion(null);
+		return false;
 	}
 	
 	public Player changePlayer() {
-		turn = turn < size() - 1 ? turn + 1 : 0;
-		currentPlayer = getPlayer(turn);
-		return currentPlayer;
+		turn++;
+		if (turn == size()) turn = 0;
+//		turn = turn < size() - 1 ? turn + 1 : 0;
+//		currentPlayer = getPlayer(turn);
+		return getPlayer(turn);
 	}
 	
 	public void printPlayersScore() {
@@ -130,7 +131,7 @@ public class PlayerManager {
 		// add score to winning player's hand
 		getWinner().setScore(getWinner().getScore() + getLoserHandValue());
 
-		System.out.println("Scores at end of round:");
+		System.out.println("\nScores at end of round:");
 		printPlayersScore();
 	}
 }

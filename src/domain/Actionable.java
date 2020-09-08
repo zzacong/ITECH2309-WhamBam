@@ -9,5 +9,7 @@ package domain;
  */
 public interface Actionable {
 	
-	public abstract int cardPenalty();
+	public int cardPenalty();
+	
+	public void penaltyMessage();
 }
