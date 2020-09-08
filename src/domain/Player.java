@@ -6,8 +6,8 @@ public class Player {
 	private int score = 0;
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	
-	public Player() {
-	
+	public Player(String name) {
+		this.setName(name);
 	}
 	
 	public void setName(String name) {
@@ -24,6 +24,11 @@ public class Player {
 	
 	public int getScore() {	
 		return score;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("%s: %d", getName(), getScore());
 	}
 	
 	public ArrayList<Card> getHand() {
@@ -45,11 +50,9 @@ public class Player {
 	
 	public int calculateValueOfHand() {
 		int value = 0;
-		
-		for (int i = 0; i < hand.size(); i++) {
-			value += hand.get(i).getValue();
+		for (Card card : getHand()) {
+			value += card.getValue();
 		}
-		
 		return value;
 	}
 	

@@ -5,6 +5,7 @@ import java.util.Stack;
 import domain.Card;
 import domain.Deck;
 import domain.Player;
+import domain.PlayerManager;
 
 import java.util.Scanner;
 import java.util.Collections;
@@ -14,6 +15,7 @@ public class GameEngine {
 	private static int STARTING_CARD_COUNT = 5;
 	private Deck gameDeck = new Deck();
 	private Deck inPlayDeck = new Deck();
+	private PlayerManager playerM = new PlayerManager();
 	private Player player1 = new Player();
 	private Player player2 = new Player();
 	private Player currentPlayer = null;
@@ -28,21 +30,15 @@ public class GameEngine {
 		createPlayers();
 
 		do {
-			System.out.println("*** Starting new round ***");
+			System.out.println("\n\n*** Starting new round ***");
 			newRound();
-			System.out.println("*** Round OVER ***");
+			System.out.println("*** Round OVER ***\n\n");
 			
 			scoreGame();
 		}
-		while (player1.getScore() < WIN_SCORE && player2.getScore() < WIN_SCORE);
-
-		// Current player is losing player.
-		if (currentPlayer.equals(player1)) {
-			System.out.println("Congratulations " + player2.getName() + ".  You WIN!");
-		}
-		else {
-			System.out.println("Congratulations " + player1.getName() + ".  You WIN!");
-		}
+		while (!playerM.hasWinningPlayer(WIN_SCORE));
+		
+		System.out.println("Congratulations " + playerM.getWinner().getName() + ".  You WIN!");
 	
 	}
 
@@ -61,7 +57,7 @@ public class GameEngine {
 		createCards();
 		shuffle();
 		deal();
-		inPlayDeck.add(gameDeck.pop());
+		inPlayDeck.addCardToDeck(gameDeck.pop());
 
 		while (!roundComplete) {
 			// if the deck is empty, replenish it
@@ -80,7 +76,7 @@ public class GameEngine {
 					currentPlayer.pickupCard(gameDeck.pop());
 				}
 				checkGameDeckSize();
-				inPlayDeck.add(gameDeck.pop());
+				inPlayDeck.addCardToDeck(gameDeck.pop());
 			}
 			else {
 				// General number card on top.
@@ -121,7 +117,7 @@ public class GameEngine {
 							// card has been found in the player's hand.
 							if (chosenCard.matchCard(inPlayDeck.peek())) {
 								//	valid choice to play card
-								inPlayDeck.add(currentPlayer.playCard(chosenCard));
+								inPlayDeck.addCardToDeck(currentPlayer.playCard(chosenCard));
 								validChoice = true;
 							}
 							else {
@@ -133,18 +129,14 @@ public class GameEngine {
 			}
 
 			// see if player has emptied hand - if so, the round is over
-			if (currentPlayer.getHand().size() == 0) {
+			if (currentPlayer.getHand().isEmpty()) {
+				playerM.setWinner(currentPlayer);
 				roundComplete = true;
 
 			}
 
 			// switch players for next turn, or so losing player is current player
-			if (currentPlayer.equals(player1)) {
-				currentPlayer = player2;
-			}
-			else {
-				currentPlayer = player1;
-			}
+			currentPlayer = playerM.changePlayer();
 		}
 	}
 
@@ -152,15 +144,10 @@ public class GameEngine {
 	private void shuffle() {
 		gameDeck.shuffle();
 	}
-
+	
+	// Delegate
 	private void deal() {
-		player1.clearHand();
-		player2.clearHand();
-
-		for (int i = 0; i < STARTING_CARD_COUNT; i++) {
-			player1.pickupCard(gameDeck.pop());
-			player2.pickupCard(gameDeck.pop());
-		}
+		playerM.deal(STARTING_CARD_COUNT, gameDeck);
 	}
 
 	private Player selectStartingPlayer() {
@@ -186,51 +173,17 @@ public class GameEngine {
 	}
 
 	private void scoreGame() {
-		// currentPlayer is losing player
-		int handValue = currentPlayer.calculateValueOfHand();
-		System.out.println("Remaining hand value for " + currentPlayer.getName() + ": " + handValue);
-
-		// add score to winning player's hand
-		if (currentPlayer.equals(player1)) {
-			player2.setScore(player2.getScore() + handValue);
-		}
-		else {
-			player1.setScore(player1.getScore() + handValue);
-		}
-
-		System.out.println("Scores at end of round:");
-		System.out.println(player1.getName() + ": " + player1.getScore());
-		System.out.println(player2.getName() + ": " + player2.getScore());
+		playerM.scoreGame();
 	}
 
 	private void createCards() {
-		boolean hasZero = false;
-		for (int j = 0; j < 2; j++) {
-			for (int i = 0; i < 11; i++) {
-				if (i == 0 && hasZero) {
-					continue;
-				}
-				if (i == 0) {
-					hasZero = true;
-				}
-				addCardToDeck(new Card("Blue", i));
-				addCardToDeck(new Card("Green", i));
-				addCardToDeck(new Card("Purple", i));
-				addCardToDeck(new Card("Orange", i));
-			}
-		}
-		System.out.println(gameDeck.toString());
-	}
-
-	private void addCardToDeck(Card theCard) {
-		gameDeck.add(theCard);
+		gameDeck.createCards();
 	}
 
 	private void createPlayers() {
-		System.out.println("Enter Player 1 name: ");
-		player1.setName(userInput.nextLine());
-		System.out.println("Enter Player 2 name: ");
-		player2.setName(userInput.nextLine());		
+		System.out.println("Enter number of player: ");
+		int numOfPlayer = userInput.nextInt();
+		playerM.createPlayer(numOfPlayer);
 	}
 	
 	// Extract

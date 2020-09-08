@@ -1,12 +1,13 @@
 package domain;
 
 public class Card {
+	
+	private static final String[] VALUENAME = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Wham!"};
+
 	private String name;
 	private String colour;
 	private int value;
 	private boolean isAction = false;
-	
-	private static final String[] VALUENAME = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Wham!"};
 	
 	public Card (String colour, int value) {
 		this.setColour(colour);
