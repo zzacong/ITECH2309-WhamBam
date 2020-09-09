@@ -47,10 +47,11 @@ public class Deck {
 	}
 	
 	public void checkDeckSize(Deck deck) {
-//		Stack<Card> otherDeck = deck.getDeck();
+		System.out.println("Deck size: " + size());
+		System.out.println("PlayDeck size: " + deck.size());
 		Card tempTopCard = null;
 		if (getDeck().isEmpty()) {
-			System.out.println("Chop GAMEDECK");
+			System.out.println("Replenish Game Deck");
 			tempTopCard = deck.pop();
 			getDeck().addAll(deck.getDeck());
 			deck.clear();
@@ -72,25 +73,28 @@ public class Deck {
 	}
 	
 	public void createCards() {
-		clear();
-		addCardToDeck(new Card("Blue", 0));
-		addCardToDeck(new Card("Green", 0));
-		addCardToDeck(new Card("Purple", 0));
-		addCardToDeck(new Card("Orange", 0));
-		for (int j = 0; j < 2; j++) {
-			for (int i = 1; i < 11; i++) {
-				if (i < 10) {
-					addCardToDeck(new Card("Blue", i));
-					addCardToDeck(new Card("Green", i));
-					addCardToDeck(new Card("Purple", i));
-					addCardToDeck(new Card("Orange", i));					
+		for (String colour : Card.COLOURS) {
+//			if (colour == "White") {
+//				for (int i = 0; i < 4; i++ ) {
+//					addCardToDeck(new Card(colour, 15));					
+//				}
+//				continue;
+//			}
+			for (int i = 0; i < 2; i++) {
+				if (i == 0) {
+					addCardToDeck(new Card(colour, 0));	// Number card Zero			
 				}
-				else {
-					addCardToDeck(new ActionCard("Blue", i));
-					addCardToDeck(new ActionCard("Green", i));
-					addCardToDeck(new ActionCard("Purple", i));
-					addCardToDeck(new ActionCard("Orange", i));
+				for (int j = 1; j < 11; j++) {
+					Card card;
+					if (j < 10) {
+						card = new Card(colour, j); // Number card 1-9					
+					}
+					else {
+						card = new ActionCard(colour, j); // Wham! card
+					}
+					addCardToDeck(card);
 				}
+				
 			}
 		}
 	}

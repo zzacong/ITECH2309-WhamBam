@@ -16,7 +16,6 @@ public class ActionCard extends Card implements Actionable {
 
 	@Override
 	public int cardPenalty() {
-		System.out.println("pick 1 card");
 		return 3;
 	}
 

@@ -13,19 +13,31 @@ public class Main {
 //		
 //		System.out.println(blueCard.matchCard(greenCard));
 		
-		ArrayList<Integer> i = new ArrayList<Integer>();
 		
-		i.add(1);
-		i.add(4);
-		i.add(3);
-		i.add(4);
-		i.add(4);
-		i.add(3);
+//		ArrayList<Integer> i = new ArrayList<Integer>();
+//		
+//		i.add(1);
+//		i.add(4);
+//		i.add(3);
+//		i.add(4);
+//		i.add(4);
+//		i.add(3);
+//		
+//		System.out.println(Collections.frequency(i, Collections.max(i)));
+//		
+//		
+//		System.out.println(formatCardName("green nine").length());
 		
-		System.out.println(Collections.frequency(i, Collections.max(i)));
 		
-		
-		System.out.println(formatCardName("green nine").length());
+//		Deck gameDeck = new Deck();
+//		Deck playDeck = new Deck();
+//		playDeck.createCards();
+//		playDeck.shuffle();
+//		
+//		gameDeck.checkDeckSize(playDeck);
+//		
+//		
+//		System.out.println("Helo");
 	}
 	
 	static String formatCardName(String input) {
