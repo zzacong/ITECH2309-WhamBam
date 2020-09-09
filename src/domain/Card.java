@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class Card {
 	
-//	public static final ArrayList<String> COLOURS = new ArrayList<String>(Arrays.asList("Blue", "Green", "Purple", "Orange", "White"));
-	public static final ArrayList<String> COLOURS = new ArrayList<String>(Arrays.asList("Blue", "Green", "Purple", "Orange"));
+	public static final ArrayList<String> COLOURS = new ArrayList<String>(Arrays.asList("Blue", "Green", "Purple", "Orange", "White"));
+//	public static final ArrayList<String> COLOURS = new ArrayList<String>(Arrays.asList("Blue", "Green", "Purple", "Orange"));
 	private static final Map<Integer, String> VALUENAME = new HashMap<Integer, String>() {
 		{
 			put(0, "Zero");
@@ -22,7 +22,7 @@ public class Card {
 			put(8, "Eight");
 			put(9, "Nine");
 			put(10, "Wham!");
-//			put(15, "Wham Bam!");
+			put(15, "Wham Bam!");
 		}
 	};	
 

@@ -30,8 +30,9 @@ public class Deck {
 		return getDeck().pop();
 	}
 	
-	public void addCardToDeck(Card card) {
+	public Card addCardToDeck(Card card) {
 		getDeck().add(card);
+		return card;
 	}
 	
 	public void addAll(Deck otherDeck) {
@@ -47,8 +48,6 @@ public class Deck {
 	}
 	
 	public void checkDeckSize(Deck deck) {
-		System.out.println("Deck size: " + size());
-		System.out.println("PlayDeck size: " + deck.size());
 		Card tempTopCard = null;
 		if (getDeck().isEmpty()) {
 			System.out.println("Replenish Game Deck");
@@ -74,19 +73,19 @@ public class Deck {
 	
 	public void createCards() {
 		for (String colour : Card.COLOURS) {
-//			if (colour == "White") {
-//				for (int i = 0; i < 4; i++ ) {
-//					addCardToDeck(new Card(colour, 15));					
-//				}
-//				continue;
-//			}
+			if (colour == "White") {
+				for (int i = 0; i < 4; i++ ) {
+					addCardToDeck(new ActionCard(colour, 15));					
+				}
+				continue;
+			}
 			for (int i = 0; i < 2; i++) {
 				if (i == 0) {
 					addCardToDeck(new Card(colour, 0));	// Number card Zero			
 				}
 				for (int j = 1; j < 11; j++) {
 					Card card;
-					if (j < 10) {
+					if (j <= 9) {
 						card = new Card(colour, j); // Number card 1-9					
 					}
 					else {

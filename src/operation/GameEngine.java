@@ -1,5 +1,6 @@
 package operation;
 
+import domain.ActionCard;
 import domain.Actionable;
 import domain.Card;
 import domain.Deck;
@@ -13,10 +14,10 @@ import java.util.Collections;
 public class GameEngine {
 	private static int WIN_SCORE = 20;
 	private static int STARTING_CARD_COUNT = 5;
-	private Deck gameDeck = new Deck();
-	private Deck inPlayDeck = new Deck();
+	public Deck gameDeck = new Deck();
+	public Deck inPlayDeck = new Deck();
 	private PlayerManager playerM = new PlayerManager();
-	private Player currentPlayer = null;
+	public Player currentPlayer = null;
 	private Scanner userInput = new Scanner(System.in);
 
 	public GameEngine() {
@@ -49,17 +50,18 @@ public class GameEngine {
 		while (!roundComplete) {
 			// if the deck is empty, replenish it
 			checkGameDeckSize();
-
+			
+			System.out.println("Deck size: " + gameDeck.size());
+			System.out.println("PlayDeck size: " + inPlayDeck.size());
 			// show the top card and current player
 			System.out.println("\nTop Card in Play: " + inPlayDeck.peek());
 			System.out.println("Current Player: " + currentPlayer.getName());
 			
 			// handle Wham! card first if needed
 			if (inPlayDeck.peek() instanceof Actionable) {
-				handleActionCard();
+				roundComplete = handleActionCard();
 			}
-			else {
-				// General number card on top.
+			else { // General number card on top.
 				handleNumberCard();
 			}
 
@@ -75,17 +77,43 @@ public class GameEngine {
 		System.out.println("\n*** Round OVER ***\n\n");
 	}
 
-	private void handleActionCard() {
-		Actionable actionC = (Actionable) inPlayDeck.peek();
-		actionC.penaltyMessage();
+	public boolean handleActionCard() {
+		ActionCard actionCard = (ActionCard) inPlayDeck.peek();
+//		actionCard.penaltyMessage();
+		int cardPenalty;
+		boolean roundComplete = false;
+		boolean isWhamBam = actionCard.getValue() == 15;
+		
+		if (isWhamBam) { // Wham Bam!
+			System.out.println("Wham Bam Card Active!");
+			Card card = inPlayDeck.addCardToDeck(pickFromGameDeck());
+			switch (card.getValue()) {
+			case 15:
+				System.out.print("The next card is a Wham Bam! card.");
+				roundComplete = true;
+				break;
+			case 10:
+				System.out.print("The next card is a Wham! card.");
+				break;
+			default:
+				System.out.print("The next card is a number card.");
+				break;
+			}
+			cardPenalty = actionCard.cardPenalty(card);
+			System.out.println(String.format("  Penalty: pick up %d cards", cardPenalty));
+		}
+		else { // Wham!
+			cardPenalty = actionCard.cardPenalty(actionCard);
+			System.out.println(String.format("Wham Card Active!  Penalty: pick up %d cards", cardPenalty));
+		}
 		// Make sure we can pick up cards
-		for (int i = 0; i < actionC.cardPenalty(); i++) {
+		for (int i = 0; i < cardPenalty; i++) {
 			System.out.println("pick 1 card");
-//			checkGameDeckSize();
 			currentPlayer.pickupCard(pickFromGameDeck());
 		}
-//		checkGameDeckSize();
-		inPlayDeck.addCardToDeck(pickFromGameDeck());
+		if (!isWhamBam) 
+			inPlayDeck.addCardToDeck(pickFromGameDeck());
+		return roundComplete;
 	}
 	
 	private void handleNumberCard() {

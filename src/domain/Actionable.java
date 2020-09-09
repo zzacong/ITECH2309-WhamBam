@@ -9,7 +9,8 @@ package domain;
  */
 public interface Actionable {
 	
-	public int cardPenalty();
+	public int cardPenalty(Card card);
 	
-	public void penaltyMessage();
+	
+//	public void penalty(Deck gameDeck, Deck inPlayDeck, Player currentPlayer);
 }

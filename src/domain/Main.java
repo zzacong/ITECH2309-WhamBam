@@ -3,6 +3,8 @@ package domain;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import operation.GameEngine;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -38,6 +40,19 @@ public class Main {
 //		
 //		
 //		System.out.println("Helo");
+		
+		GameEngine ge = new GameEngine();
+		ge.currentPlayer = new Player("Tommy");
+		System.out.println(ge.currentPlayer.printHand());
+
+		ge.gameDeck.createCards();
+		ge.gameDeck.shuffle();
+		
+		ge.inPlayDeck.addCardToDeck(new ActionCard("Blue", 10));
+//		ge.gameDeck.addCardToDeck(new ActionCard("Purple", 9));
+		System.out.println(ge.handleActionCard());
+		System.out.println(ge.currentPlayer.printHand());
+		System.out.println(ge.inPlayDeck.peek());
 	}
 	
 	static String formatCardName(String input) {
