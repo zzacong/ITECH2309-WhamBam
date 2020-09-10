@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GameEngine {
-	private static int WIN_SCORE = 20;
+	private static int WIN_SCORE = 50;
 	private static int STARTING_CARD_COUNT = 5;
 	public Deck gameDeck = new Deck();
 	public Deck inPlayDeck = new Deck();
-	private PlayerManager playerM = new PlayerManager();
+	public PlayerManager playerM = new PlayerManager();
 	public Player currentPlayer = null;
 	private Scanner userInput = new Scanner(System.in);
 
@@ -32,10 +32,9 @@ public class GameEngine {
 			newRound();
 			scoreGame();
 		}
-		while (!playerM.hasWinningPlayer(WIN_SCORE));
+		while (!playerM.hasChampion(WIN_SCORE));
 		
-		System.out.println(String.format("\nCongratulations %s. You WIN!", playerM.getChampion().getName()));
-	
+		System.out.println("\n" + playerM.printChampions());
 	}
 
 	private void newRound() {
@@ -51,14 +50,13 @@ public class GameEngine {
 			// if the deck is empty, replenish it
 			checkGameDeckSize();
 			
-			System.out.println("Deck size: " + gameDeck.size());
+			System.out.println("\nGameDeck size: " + gameDeck.size());
 			System.out.println("PlayDeck size: " + inPlayDeck.size());
 			// show the top card and current player
 			System.out.println("\nTop Card in Play: " + inPlayDeck.peek());
 			System.out.println("Current Player: " + currentPlayer.getName());
 			
-			// handle Wham! card first if needed
-			if (inPlayDeck.peek() instanceof Actionable) {
+			if (inPlayDeck.peek() instanceof ActionCard) { // handle Action card first if needed
 				roundComplete = handleActionCard();
 			}
 			else { // General number card on top.
@@ -67,10 +65,11 @@ public class GameEngine {
 
 			// see if player has emptied hand - if so, the round is over
 			if (currentPlayer.isEmptyHand()) {
-				playerM.setWinner(currentPlayer);
+				playerM.addWinner(currentPlayer);
+				playerM.addLosersExcept(currentPlayer);
 				roundComplete = true;
 			}
-			// switch players for next turn, or so losing player is current player
+			// switch players for next turn
 			currentPlayer = playerM.changePlayer();
 		}
 
@@ -85,18 +84,20 @@ public class GameEngine {
 		boolean isWhamBam = actionCard.getValue() == 15;
 		
 		if (isWhamBam) { // Wham Bam!
-			System.out.println("Wham Bam Card Active!");
+			System.out.println("Wham Bam Card Active! Pick up the next card in deck");
 			Card card = inPlayDeck.addCardToDeck(pickFromGameDeck());
 			switch (card.getValue()) {
 			case 15:
 				System.out.print("The next card is a Wham Bam! card.");
+				playerM.addLoser(currentPlayer);
+				playerM.addWinnersExcept(currentPlayer);
 				roundComplete = true;
 				break;
 			case 10:
-				System.out.print("The next card is a Wham! card.");
+				System.out.print(String.format("The next card is Wham! card - %s.", card));
 				break;
 			default:
-				System.out.print("The next card is a number card.");
+				System.out.print(String.format("The next card is number card - %s.", card));
 				break;
 			}
 			cardPenalty = actionCard.cardPenalty(card);
@@ -106,7 +107,7 @@ public class GameEngine {
 			cardPenalty = actionCard.cardPenalty(actionCard);
 			System.out.println(String.format("Wham Card Active!  Penalty: pick up %d cards", cardPenalty));
 		}
-		// Make sure we can pick up cards
+		// Perform penalty, pick cards from game deck
 		for (int i = 0; i < cardPenalty; i++) {
 			System.out.println("pick 1 card");
 			currentPlayer.pickupCard(pickFromGameDeck());
@@ -122,7 +123,6 @@ public class GameEngine {
 		boolean validChoice = false;
 
 		while (!validChoice) {
-			System.out.println("Cards in hand: ");
 			System.out.println(currentPlayer.printHand());
 			System.out.println("Select a card to play (N to pick up from deck): ");
 
@@ -134,8 +134,6 @@ public class GameEngine {
 					System.out.println("Unable to pickup card: you have at least one valid card to play in your hand.");
 				}
 				else {
-					// make sure there are cards to pick up.
-//					checkGameDeckSize();
 					// pick up card and end turn.
 					currentPlayer.pickupCard(pickFromGameDeck());
 					validChoice = true;
@@ -206,6 +204,7 @@ public class GameEngine {
 	}
 	
 	private Card pickFromGameDeck() {
+		// make sure there are cards to pick up.
 		checkGameDeckSize();
 		return gameDeck.pop();
 	}

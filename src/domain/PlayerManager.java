@@ -17,8 +17,9 @@ public class PlayerManager {
 	private ArrayList<Player> players;
 //	private Scanner userInput = new Scanner(System.in);
 //	private Player currentPlayer;
-	private Player winner;
-	private Player champion;
+	private ArrayList<Player> winners = new ArrayList<Player>();
+	private ArrayList<Player> champions = new ArrayList<Player>();
+	private ArrayList<Player> losers = new ArrayList<Player>();
 
 	public PlayerManager() {
 		players = new ArrayList<Player>();
@@ -36,20 +37,54 @@ public class PlayerManager {
 		return getAllPlayers().size();
 	}
 	
-	public Player getWinner() {
-		return winner;
+	private ArrayList<Player> getLosers() {
+		return losers;
 	}
 
-	public void setWinner(Player winner) {
-		this.winner = winner;
+	public boolean addLoser(Player loser) {
+		return this.getLosers().add(loser);
+	}
+	
+	public void addLosersExcept(Player exception) {
+		getLosers().addAll(getAllPlayers());
+		getLosers().remove(exception);
+	}
+	
+	public void clearLosers() {
+		getLosers().clear();
 	}
 
-	public Player getChampion() {
-		return champion;
+	private ArrayList<Player> getWinners() {
+		return winners;
 	}
 
-	public void setChampion(Player champion) {
-		this.champion = champion;
+	public boolean addWinner(Player winner) {
+		return getWinners().add(winner);
+	}
+	
+	public void addWinnersExcept(Player exception) {
+		getWinners().addAll(getAllPlayers());
+		getWinners().remove(exception);
+	}
+	
+	public void clearWinners() {
+		getWinners().clear();
+	}
+	
+	public ArrayList<Player> getChampions() {
+		return champions;
+	}
+	
+	public boolean addChampion(Player champion) {
+		return this.champions.add(champion);
+	}
+
+	public String printChampions() {
+		String output = "";
+		for (Player player : getChampions()) {
+			output += String.format("Congratulations %s. You WIN! \n", player.getName());
+		}
+		return output;
 	}
 
 	public void createPlayer(int numOfPlayer, Scanner userInput) {
@@ -76,22 +111,21 @@ public class PlayerManager {
 //		return topPlayer;
 //	}
 	
-	public boolean hasWinningPlayer(int winScore) {
+	public boolean hasChampion(int winScore) {
 		for (Player player : getAllPlayers()) {
 			if (player.getScore() >= winScore) {
-				setChampion(player);
-				return true;
+				addChampion(player);
+//				return true;
 			}
 		}
-		setChampion(null);
-		return false;
+		return getChampions().size() > 0 ? true : false; 
+//		setChampion(null);
+//		return false;
 	}
 	
 	public Player changePlayer() {
 		turn++;
 		if (turn == size()) turn = 0;
-//		turn = turn < size() - 1 ? turn + 1 : 0;
-//		currentPlayer = getPlayer(turn);
 		return getPlayer(turn);
 	}
 	
@@ -116,22 +150,38 @@ public class PlayerManager {
 		}
 	}
 	
-	private int getLoserHandValue() {
-		int loserValue = 0;
-		for (Player player : getAllPlayers()) {
-			int handValue = player.calculateValueOfHand();
-			System.out.println(String.format("Remaining hand value for %s: %d", player.getName(), handValue));			
-			loserValue += handValue;
+	private float getLoserHandValue() {
+		float totalLoserValue = 0;
+		for (Player loser : getLosers()) {
+			int loserValue = loser.calculateValueOfHand();
+			System.out.println(String.format("Remaining hand value for %s: %d", loser.getName(), loserValue));			
+			totalLoserValue += loserValue;
 		}
-		return loserValue;
+		return totalLoserValue;
 	}
 	
 	public void scoreGame() {
-
-		// add score to winning player's hand
-		getWinner().setScore(getWinner().getScore() + getLoserHandValue());
+		int scorePerPerson = Math.round(getLoserHandValue() / getWinners().size());
+		for (Player winner : getWinners()) {
+			// add score to winning player's hand
+			winner.setScore(winner.getScore() + scorePerPerson);
+		}
 
 		System.out.println("\nScores at end of round:");
 		printPlayersScore();
+		
+		clearWinners();
+		clearLosers();
 	}
+
+	
+	
+//	public void scoreGame(Player loser) {
+//		
+//		// add score to winning player's hand
+//		getWinner().setScore(getWinner().getScore() + getLoserHandValue());
+//
+//		System.out.println("\nScores at end of round:");
+//		printPlayersScore();
+//	}
 }

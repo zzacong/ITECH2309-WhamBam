@@ -68,13 +68,14 @@ public class Card {
 	protected void setAction(boolean isAction) {
 		this.isAction = isAction;
 	}
-
+	
+	@Override
 	public String toString() {
 		return getName();
 	}
 	
 	public boolean match(Card otherCard) {
-		return matchValue(otherCard) || matchColour(otherCard);
+		return matchValue(otherCard) || matchColour(otherCard) || getValue() == 15;
 	}
 	
 	private boolean matchValue(Card otherCard) {

@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 
 import operation.GameEngine;
 
@@ -41,18 +42,44 @@ public class Main {
 //		
 //		System.out.println("Helo");
 		
-		GameEngine ge = new GameEngine();
-		ge.currentPlayer = new Player("Tommy");
-		System.out.println(ge.currentPlayer.printHand());
-
-		ge.gameDeck.createCards();
-		ge.gameDeck.shuffle();
+//		GameEngine ge = new GameEngine();
+//		ge.currentPlayer = new Player("Tommy");
+//		System.out.println(ge.currentPlayer.printHand());
+//
+//		ge.gameDeck.createCards();
+//		ge.gameDeck.shuffle();
+//		
+//		ge.inPlayDeck.addCardToDeck(new ActionCard("Blue", 10));
+////		ge.gameDeck.addCardToDeck(new ActionCard("Purple", 9));
+//		System.out.println(ge.handleActionCard());
+//		System.out.println(ge.currentPlayer.printHand());
+//		System.out.println(ge.inPlayDeck.peek());
 		
-		ge.inPlayDeck.addCardToDeck(new ActionCard("Blue", 10));
-//		ge.gameDeck.addCardToDeck(new ActionCard("Purple", 9));
+//		ArrayList<Player> list = null;
+//		if (list.add(new Player("Tommy")))
+//			System.out.println(list.toString());
+		
+		
+		GameEngine ge = new GameEngine();
+		Deck gameDeck = ge.gameDeck;
+		Deck playDeck = ge.inPlayDeck;
+		PlayerManager pm = ge.playerM;
+		
+		pm.createPlayer(4, new Scanner(System.in));
+		ge.currentPlayer = pm.getPlayer(0);
+
+		gameDeck.createCards();
+		gameDeck.shuffle();
+		pm.deal(5, gameDeck);
+		
+		
+		playDeck.addCardToDeck(new ActionCard("White", 15));
+		gameDeck.addCardToDeck(new ActionCard("White", 15));
 		System.out.println(ge.handleActionCard());
 		System.out.println(ge.currentPlayer.printHand());
-		System.out.println(ge.inPlayDeck.peek());
+		pm.scoreGame();
+		if (pm.hasChampion(20))
+			System.out.println("\n" + pm.printChampions());
 	}
 	
 	static String formatCardName(String input) {

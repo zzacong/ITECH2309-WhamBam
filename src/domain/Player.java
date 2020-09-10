@@ -45,7 +45,7 @@ public class Player {
 	}
 	
 	public String printHand() {
-		return getHand().toString();
+		return String.format("Cards in hand: \n%s", getHand().toString());
 	}
 	
 	public void pickupCard(Card aCard) {
