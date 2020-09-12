@@ -23,9 +23,8 @@ public class GameEngine {
 		do {
 			newRound();
 			scoreGame();
-		}
-		while (!playerM.hasChampion(WIN_SCORE));
-		
+		} while (!playerM.hasChampion(WIN_SCORE));
+
 		System.out.println("\n" + playerM.printChampions());
 	}
 
@@ -41,17 +40,16 @@ public class GameEngine {
 		while (!roundComplete) {
 			// if the deck is empty, replenish it
 			checkGameDeckSize();
-			
+
 			System.out.println("\nGameDeck size: " + gameDeck.size());
 			System.out.println("PlayDeck size: " + inPlayDeck.size());
 			// show the top card and current player
 			System.out.println("\nTop Card in Play: " + inPlayDeck.peek());
 			System.out.println("Current Player: " + currentPlayer.getName());
-			
+
 			if (inPlayDeck.peek() instanceof ActionCard) { // handle Action card first if needed
 				roundComplete = handleActionCard();
-			}
-			else { // General number card on top.
+			} else { // General number card on top.
 				handleNumberCard();
 			}
 
@@ -70,32 +68,31 @@ public class GameEngine {
 
 	public boolean handleActionCard() {
 		ActionCard actionCard = (ActionCard) inPlayDeck.peek();
-//		actionCard.penaltyMessage();
+		// actionCard.penaltyMessage();
 		int cardPenalty;
 		boolean roundComplete = false;
 		boolean isWhamBam = actionCard.getValue() == 15;
-		
+
 		if (isWhamBam) { // Wham Bam!
 			System.out.println("Wham Bam Card Active! Pick up the next card in deck");
 			Card card = inPlayDeck.addCardToDeck(pickFromGameDeck());
 			switch (card.getValue()) {
-			case 15:
-				System.out.print("The next card is a Wham Bam! card.");
-				playerM.addLoser(currentPlayer);
-				playerM.addWinnersExcept(currentPlayer);
-				roundComplete = true;
-				break;
-			case 10:
-				System.out.print(String.format("The next card is Wham! card - %s.", card));
-				break;
-			default:
-				System.out.print(String.format("The next card is number card - %s.", card));
-				break;
+				case 15:
+					System.out.print("The next card is a Wham Bam! card.");
+					playerM.addLoser(currentPlayer);
+					playerM.addWinnersExcept(currentPlayer);
+					roundComplete = true;
+					break;
+				case 10:
+					System.out.print(String.format("The next card is Wham! card - %s.", card));
+					break;
+				default:
+					System.out.print(String.format("The next card is number card - %s.", card));
+					break;
 			}
 			cardPenalty = actionCard.cardPenalty(card);
 			System.out.println(String.format("  Penalty: pick up %d cards", cardPenalty));
-		}
-		else { // Wham!
+		} else { // Wham!
 			cardPenalty = actionCard.cardPenalty(actionCard);
 			System.out.println(String.format("Wham Card Active!  Penalty: pick up %d cards", cardPenalty));
 		}
@@ -104,11 +101,11 @@ public class GameEngine {
 			System.out.println("pick 1 card");
 			currentPlayer.pickupCard(pickFromGameDeck());
 		}
-		if (!isWhamBam) 
+		if (!isWhamBam)
 			inPlayDeck.addCardToDeck(pickFromGameDeck());
 		return roundComplete;
 	}
-	
+
 	private void handleNumberCard() {
 		String chosenCardName = null;
 		Card chosenCard = null;
@@ -121,37 +118,34 @@ public class GameEngine {
 			chosenCardName = userInput.nextLine();
 
 			if (chosenCardName.equalsIgnoreCase("N")) {
-				// choosing to pick up.  Needs to not have a valid card to play in hand.
+				// choosing to pick up. Needs to not have a valid card to play in hand.
 				if (currentPlayer.cardInHand(inPlayDeck.peek())) {
 					System.out.println("Unable to pickup card: you have at least one valid card to play in your hand.");
-				}
-				else {
+				} else {
 					// pick up card and end turn.
 					currentPlayer.pickupCard(pickFromGameDeck());
 					validChoice = true;
 				}
-			}
-			else {
-				// player has selected a card.  Search hand for their selection.
+			} else {
+				// player has selected a card. Search hand for their selection.
 				if (currentPlayer.cardInHand(chosenCardName)) {
 					chosenCard = currentPlayer.getChosenCard();
 					if (chosenCard.match(inPlayDeck.peek())) {
-						//	valid choice to play card
+						// valid choice to play card
 						inPlayDeck.addCardToDeck(currentPlayer.playCard(chosenCard));
 						validChoice = true;
+					} else {
+						System.out.println(
+								"Invalid card selection.  Must match colour or number of top card in deck.  Please retry.");
 					}
-					else {
-						System.out.println("Invalid card selection.  Must match colour or number of top card in deck.  Please retry.");
-					}							
 				}
 			}
 		}
 	}
-	
 
-	private Player selectStartingPlayer() {		
+	private Player selectStartingPlayer() {
 		Player startingPlayer = null;
-		
+
 		while (startingPlayer == null) {
 			ArrayList<Integer> playerValues = new ArrayList<Integer>();
 			for (int i = 0; i < playerM.size(); i++) {
@@ -165,20 +159,20 @@ public class GameEngine {
 		}
 		return startingPlayer;
 	}
-	
+
 	private void createPlayers() {
 		System.out.println("Enter number of player: ");
 		int numOfPlayer = obtainValidInt();
 		playerM.createPlayer(numOfPlayer);
 	}
-	
+
 	private void createCards() {
 		inPlayDeck.clear();
 		gameDeck.clear();
 		gameDeck.createCards();
 		gameDeck.shuffle();
 	}
-	
+
 	// Delegate
 	private void deal() {
 		playerM.deal(STARTING_CARD_COUNT, gameDeck);
@@ -192,20 +186,19 @@ public class GameEngine {
 	private void checkGameDeckSize() {
 		gameDeck.checkDeckSize(inPlayDeck);
 	}
-	
+
 	private Card pickFromGameDeck() {
 		// make sure there are cards to pick up.
 		checkGameDeckSize();
 		return gameDeck.pop();
 	}
-	
+
 	private int obtainValidInt() {
 		int num = 0;
-		while(outOfRange(num)) {
+		while (outOfRange(num)) {
 			try {
 				num = Integer.parseInt(userInput.nextLine());
-			}
-			catch (NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				System.out.println("Invalid input.  Please enter a number between 2 - 4: ");
 			}
 			if (outOfRange(num)) {
@@ -214,7 +207,7 @@ public class GameEngine {
 		}
 		return num;
 	}
-	
+
 	private boolean outOfRange(int num) {
 		return (num < 2 || num > 4);
 	}
