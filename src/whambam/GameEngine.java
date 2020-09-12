@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GameEngine {
-	private static int WIN_SCORE = 50;
+	private static int WIN_SCORE = 300;
 	private static int STARTING_CARD_COUNT = 5;
 	private Deck gameDeck = new Deck();
 	private Deck inPlayDeck = new Deck();
