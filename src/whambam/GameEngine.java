@@ -6,7 +6,7 @@ import java.util.Collections;
 
 public class GameEngine {
 	private static int WIN_SCORE = 50;
-	private static int STARTING_CARD_COUNT = 5;
+	private static int STARTING_CARD_COUNT = 300;
 	private Deck gameDeck = new Deck();
 	private Deck inPlayDeck = new Deck();
 	private PlayerManager playerM = new PlayerManager();
@@ -43,6 +43,7 @@ public class GameEngine {
 
 			System.out.println("\nGameDeck size: " + gameDeck.size());
 			System.out.println("PlayDeck size: " + inPlayDeck.size());
+			System.out.println("Next game card: " + gameDeck.peek());
 			// show the top card and current player
 			System.out.println("\nTop Card in Play: " + inPlayDeck.peek());
 			System.out.println("Current Player: " + currentPlayer.getName());
