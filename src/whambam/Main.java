@@ -1,10 +1,7 @@
-package domain;
+package whambam;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
-
-import operation.GameEngine;
 
 public class Main {
 
@@ -60,35 +57,35 @@ public class Main {
 //			System.out.println(list.toString());
 		
 		
-		GameEngine ge = new GameEngine();
-		Deck gameDeck = ge.gameDeck;
-		Deck playDeck = ge.inPlayDeck;
-		PlayerManager pm = ge.playerM;
-		
-		pm.createPlayer(4, new Scanner(System.in));
-		ge.currentPlayer = pm.getPlayer(0);
-
-		gameDeck.createCards();
-		gameDeck.shuffle();
-		pm.deal(5, gameDeck);
-		
-		
-		playDeck.addCardToDeck(new ActionCard("White", 15));
-		gameDeck.addCardToDeck(new ActionCard("White", 15));
-		System.out.println(ge.handleActionCard());
-		System.out.println(ge.currentPlayer.printHand());
-		pm.scoreGame();
-		if (pm.hasChampion(20))
-			System.out.println("\n" + pm.printChampions());
+//		GameEngine ge = new GameEngine();
+//		Deck gameDeck = ge.gameDeck;
+//		Deck playDeck = ge.inPlayDeck;
+//		PlayerManager pm = ge.playerM;
+//		
+//		pm.createPlayer(4);
+//		ge.currentPlayer = pm.getPlayer(0);
+//
+//		gameDeck.createCards();
+//		gameDeck.shuffle();
+//		pm.deal(5, gameDeck);
+//		
+//		
+//		playDeck.addCardToDeck(new ActionCard("White", 15));
+//		gameDeck.addCardToDeck(new ActionCard("White", 15));
+//		System.out.println(ge.handleActionCard());
+//		System.out.println(ge.currentPlayer.printHand());
+//		pm.scoreGame();
+//		if (pm.hasChampion(20))
+//			System.out.println("\n" + pm.printChampions());
 	}
 	
-	static String formatCardName(String input) {
-		String[] arr = input.split(" ");	
-		return String.join(" ", capitalised(arr[0]), capitalised(arr[1]));
-	}
-	
-	static String capitalised(String input) {
-		return input.substring(0,1).toUpperCase() + input.substring(1);
-	}
+//	static String formatCardName(String input) {
+//		String[] arr = input.split(" ");	
+//		return String.join(" ", capitalised(arr[0]), capitalised(arr[1]));
+//	}
+//	
+//	static String capitalised(String input) {
+//		return input.substring(0,1).toUpperCase() + input.substring(1);
+//	}
 
 }

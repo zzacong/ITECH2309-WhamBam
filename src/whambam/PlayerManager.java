@@ -1,7 +1,7 @@
 /**
  * 
  */
-package domain;
+package whambam;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,8 +15,7 @@ public class PlayerManager {
 	private int turn = 0;
 	
 	private ArrayList<Player> players;
-//	private Scanner userInput = new Scanner(System.in);
-//	private Player currentPlayer;
+	private Scanner userInput = new Scanner(System.in);
 	private ArrayList<Player> winners = new ArrayList<Player>();
 	private ArrayList<Player> champions = new ArrayList<Player>();
 	private ArrayList<Player> losers = new ArrayList<Player>();
@@ -71,7 +70,7 @@ public class PlayerManager {
 		getWinners().clear();
 	}
 	
-	public ArrayList<Player> getChampions() {
+	private ArrayList<Player> getChampions() {
 		return champions;
 	}
 	
@@ -86,8 +85,41 @@ public class PlayerManager {
 		}
 		return output;
 	}
+	
+	private float getLoserHandValue() {
+		float totalLoserValue = 0;
+		for (Player loser : getLosers()) {
+			int loserValue = loser.calculateValueOfHand();
+			System.out.println(String.format("Remaining hand value for %s: %d", loser.getName(), loserValue));			
+			totalLoserValue += loserValue;
+		}
+		return totalLoserValue;
+	}
+	
+	public void scoreGame() {
+		int scorePerPerson = Math.round(getLoserHandValue() / getWinners().size());
+		for (Player winner : getWinners()) {
+			// add score to winning player's hand
+			winner.setScore(winner.getScore() + scorePerPerson);
+		}
+		
+		System.out.println("\nScores at end of round:");
+		printPlayersScore();
+		
+		clearWinners();
+		clearLosers();
+	}
 
-	public void createPlayer(int numOfPlayer, Scanner userInput) {
+	public boolean hasChampion(int winScore) {
+		for (Player player : getAllPlayers()) {
+			if (player.getScore() >= winScore) {
+				addChampion(player);
+			}
+		}
+		return getChampions().size() > 0 ? true : false; // return true if there are champions 
+	}
+	
+	public void createPlayer(int numOfPlayer) {
 		System.out.println(String.format("Creating %d players ...", numOfPlayer));
 		for (int i = 0; i < numOfPlayer; i++) {
 			System.out.println(String.format("\nEnter Player %d name: ", i + 1));
@@ -98,29 +130,13 @@ public class PlayerManager {
 		}
 	}
 	
-//	public Player getTopPlayer() {
-//		Player topPlayer = getPlayer(0);
-//		int score = topPlayer.getScore();
-//
-//		for (Player player : getAllPlayers()) {
-//			if (player.getScore() > score) {
-//				score = player.getScore();
-//				topPlayer = player;
-//			}
-//		}
-//		return topPlayer;
-//	}
-	
-	public boolean hasChampion(int winScore) {
-		for (Player player : getAllPlayers()) {
-			if (player.getScore() >= winScore) {
-				addChampion(player);
-//				return true;
-			}
+	public void deal(int cardCount, Deck deck) {
+		clearHand();
+		for (int i = 0; i < cardCount; i++) {
+			for (Player player : getAllPlayers()) {
+				player.pickupCard(deck.pop());
+			}			
 		}
-		return getChampions().size() > 0 ? true : false; 
-//		setChampion(null);
-//		return false;
 	}
 	
 	public Player changePlayer() {
@@ -140,48 +156,4 @@ public class PlayerManager {
 			player.clearHand();
 		}
 	}
-	
-	public void deal(int cardCount, Deck deck) {
-		clearHand();
-		for (int i = 0; i < cardCount; i++) {
-			for (Player player : getAllPlayers()) {
-				player.pickupCard(deck.pop());
-			}			
-		}
-	}
-	
-	private float getLoserHandValue() {
-		float totalLoserValue = 0;
-		for (Player loser : getLosers()) {
-			int loserValue = loser.calculateValueOfHand();
-			System.out.println(String.format("Remaining hand value for %s: %d", loser.getName(), loserValue));			
-			totalLoserValue += loserValue;
-		}
-		return totalLoserValue;
-	}
-	
-	public void scoreGame() {
-		int scorePerPerson = Math.round(getLoserHandValue() / getWinners().size());
-		for (Player winner : getWinners()) {
-			// add score to winning player's hand
-			winner.setScore(winner.getScore() + scorePerPerson);
-		}
-
-		System.out.println("\nScores at end of round:");
-		printPlayersScore();
-		
-		clearWinners();
-		clearLosers();
-	}
-
-	
-	
-//	public void scoreGame(Player loser) {
-//		
-//		// add score to winning player's hand
-//		getWinner().setScore(getWinner().getScore() + getLoserHandValue());
-//
-//		System.out.println("\nScores at end of round:");
-//		printPlayersScore();
-//	}
 }

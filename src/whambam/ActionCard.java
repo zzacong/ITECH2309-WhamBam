@@ -1,7 +1,7 @@
 /**
  * 
  */
-package domain;
+package whambam;
 
 /**
  * @author Zac
@@ -11,7 +11,6 @@ public class ActionCard extends Card implements Actionable {
 	
 	public ActionCard(String colour, int value) {
 		super(colour, value);
-		setAction(true);
 	}
 
 	@Override

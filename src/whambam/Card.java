@@ -1,4 +1,4 @@
-package domain;
+package whambam;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +8,6 @@ import java.util.Map;
 public class Card {
 	
 	public static final ArrayList<String> COLOURS = new ArrayList<String>(Arrays.asList("Blue", "Green", "Purple", "Orange", "White"));
-//	public static final ArrayList<String> COLOURS = new ArrayList<String>(Arrays.asList("Blue", "Green", "Purple", "Orange"));
 	private static final Map<Integer, String> VALUENAME = new HashMap<Integer, String>() {
 		{
 			put(0, "Zero");
@@ -29,7 +28,6 @@ public class Card {
 	private String name;
 	private String colour;
 	private int value;
-	private boolean isAction = false;
 	
 	public Card (String colour, int value) {
 		this.setColour(colour);
@@ -61,19 +59,6 @@ public class Card {
 		this.value = value;
 	}
 	
-	public boolean isAction() {
-		return isAction;
-	}
-
-	protected void setAction(boolean isAction) {
-		this.isAction = isAction;
-	}
-	
-	@Override
-	public String toString() {
-		return getName();
-	}
-	
 	public boolean match(Card otherCard) {
 		return matchValue(otherCard) || matchColour(otherCard) || getValue() == 15;
 	}
@@ -85,14 +70,10 @@ public class Card {
 	private boolean matchColour(Card otherCard) {
 		return this.getColour().equals(otherCard.getColour());
 	}
-	
-	public static String formatCardName(String input) {
-		String[] arr = input.split(" ");	
-		return String.join(" ", capitalised(arr[0]), capitalised(arr[1]));
-	}
-	
-	private static String capitalised(String input) {
-		return input.substring(0,1).toUpperCase() + input.substring(1);
+
+	@Override
+	public String toString() {
+		return getName();
 	}
 	
 }

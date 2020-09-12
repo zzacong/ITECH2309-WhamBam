@@ -6,7 +6,7 @@ Please note there may be some bugs in the code as it has not been thoroughly tes
 Refer to the Game Rules for the correct and expected functionality.
 **/
 
-package operation;
+package whambam;
 
 public class WhambamDriver {
 

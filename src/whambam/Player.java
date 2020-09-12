@@ -1,4 +1,4 @@
-package domain;
+package whambam;
 
 import java.util.ArrayList;
 public class Player {
@@ -34,18 +34,25 @@ public class Player {
 	public void setChosenCard(Card chosenCard) {
 		this.chosenCard = chosenCard;
 	}
-
-	@Override
-	public String toString() {
-		return String.format("%s: %d", getName(), getScore());
-	}
 	
 	private ArrayList<Card> getHand() {
 		return hand;
 	}
 	
+	public boolean isEmptyHand() {
+		return getHand().isEmpty();
+	}
+	
+	public int getHandSize() {
+		return getHand().size();
+	}
+	
 	public String printHand() {
 		return String.format("Cards in hand: \n%s", getHand().toString());
+	}
+	
+	public void clearHand() {
+		getHand().clear();
 	}
 	
 	public void pickupCard(Card aCard) {
@@ -55,10 +62,6 @@ public class Player {
 	public Card playCard(Card chosenCard) {
 		getHand().remove(chosenCard);
 		return chosenCard;
-	}
-	
-	public void clearHand() {
-		getHand().clear();
 	}
 	
 	public int calculateValueOfHand() {
@@ -90,14 +93,9 @@ public class Player {
 		return false;
 	}
 	
-	public boolean isEmptyHand() {
-		return getHand().isEmpty();
+	@Override
+	public String toString() {
+		return String.format("%s: %d", getName(), getScore());
 	}
-	
-	public int getHandSize() {
-		return getHand().size();
-	}
-	
-	
 	
 }

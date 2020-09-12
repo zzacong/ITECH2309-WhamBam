@@ -1,11 +1,4 @@
-package operation;
-
-import domain.ActionCard;
-import domain.Actionable;
-import domain.Card;
-import domain.Deck;
-import domain.Player;
-import domain.PlayerManager;
+package whambam;
 
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -14,14 +7,13 @@ import java.util.Collections;
 public class GameEngine {
 	private static int WIN_SCORE = 50;
 	private static int STARTING_CARD_COUNT = 5;
-	public Deck gameDeck = new Deck();
-	public Deck inPlayDeck = new Deck();
-	public PlayerManager playerM = new PlayerManager();
-	public Player currentPlayer = null;
+	private Deck gameDeck = new Deck();
+	private Deck inPlayDeck = new Deck();
+	private PlayerManager playerM = new PlayerManager();
+	private Player currentPlayer = null;
 	private Scanner userInput = new Scanner(System.in);
 
 	public GameEngine() {
-
 	}
 
 	public void play() {
@@ -158,7 +150,6 @@ public class GameEngine {
 	
 
 	private Player selectStartingPlayer() {		
-//		boolean startingPlayerSelected = false;
 		Player startingPlayer = null;
 		
 		while (startingPlayer == null) {
@@ -170,7 +161,6 @@ public class GameEngine {
 			int highestValue = Collections.max(playerValues);
 			if (Collections.frequency(playerValues, highestValue) <= 1) {
 				startingPlayer = playerM.getPlayer(playerValues.indexOf(highestValue));
-//				startingPlayerSelected = true;
 			}
 		}
 		return startingPlayer;
@@ -179,7 +169,7 @@ public class GameEngine {
 	private void createPlayers() {
 		System.out.println("Enter number of player: ");
 		int numOfPlayer = obtainValidInt();
-		playerM.createPlayer(numOfPlayer, userInput);
+		playerM.createPlayer(numOfPlayer);
 	}
 	
 	private void createCards() {
@@ -228,7 +218,5 @@ public class GameEngine {
 	private boolean outOfRange(int num) {
 		return (num < 2 || num > 4);
 	}
-	
-	
 
 }

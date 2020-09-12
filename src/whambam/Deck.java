@@ -1,7 +1,7 @@
 /**
  * 
  */
-package domain;
+package whambam;
 
 import java.util.Collections;
 import java.util.Stack;
