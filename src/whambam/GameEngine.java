@@ -7,10 +7,10 @@ import java.util.Collections;
 public class GameEngine {
 	private static int WIN_SCORE = 300;
 	private static int STARTING_CARD_COUNT = 5;
-	private Deck gameDeck = new Deck();
-	private Deck inPlayDeck = new Deck();
-	private PlayerManager playerM = new PlayerManager();
-	private Player currentPlayer = null;
+	public Deck gameDeck = new Deck("Game deck");
+	public Deck inPlayDeck = new Deck("Play deck");
+	public PlayerManager playerM = new PlayerManager();
+	public Player currentPlayer = null;
 	private Scanner userInput = new Scanner(System.in);
 
 	public GameEngine() {
@@ -35,14 +35,16 @@ public class GameEngine {
 		currentPlayer = selectStartingPlayer();
 		createCards();
 		deal();
-		inPlayDeck.addCardToDeck(gameDeck.pop());
+		// System.out.println("\nTop Card in Game: " + gameDeck.peek());
+		inPlayDeck.addCardToDeck(pickFromGameDeck());
 
 		while (!roundComplete) {
 			// if the deck is empty, replenish it
 			checkGameDeckSize();
 
-			System.out.println("\nGameDeck size: " + gameDeck.size());
-			System.out.println("PlayDeck size: " + inPlayDeck.size());
+			System.out.println("\n" + gameDeck.toString());
+			System.out.println(inPlayDeck.toString());
+			System.out.println("Next card in game: " + gameDeck.peek());
 			// show the top card and current player
 			System.out.println("\nTop Card in Play: " + inPlayDeck.peek());
 			System.out.println("Current Player: " + currentPlayer.getName());
@@ -63,7 +65,7 @@ public class GameEngine {
 			currentPlayer = playerM.changePlayer();
 		}
 
-		System.out.println("\n*** Round OVER ***\n\n");
+		System.out.println("\n*** Round OVER ***\n");
 	}
 
 	public boolean handleActionCard() {
@@ -144,6 +146,7 @@ public class GameEngine {
 	}
 
 	private Player selectStartingPlayer() {
+		System.out.println("Selecting starting player...");
 		Player startingPlayer = null;
 
 		while (startingPlayer == null) {
@@ -157,6 +160,7 @@ public class GameEngine {
 				startingPlayer = playerM.getPlayer(playerValues.indexOf(highestValue));
 			}
 		}
+		System.out.println(String.format("Starting player: %s \n", startingPlayer.getName()));
 		return startingPlayer;
 	}
 

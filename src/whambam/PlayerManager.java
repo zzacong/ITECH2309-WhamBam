@@ -131,12 +131,18 @@ public class PlayerManager {
 	}
 
 	public void deal(int cardCount, Deck deck) {
+		System.out.println("Dealing cards...");
 		clearHand();
 		for (int i = 0; i < cardCount; i++) {
 			for (Player player : getAllPlayers()) {
 				player.pickupCard(deck.pop());
 			}
 		}
+		String output = "";
+		for (Player player : getAllPlayers()) {
+			output += String.format("%s has %d cards \n", player.getName(), player.getHandSize());
+		}
+		System.out.print(output);
 	}
 
 	public Player changePlayer() {

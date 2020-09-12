@@ -13,9 +13,19 @@ import java.util.Stack;
 public class Deck {
 
 	private Stack<Card> deck;
+	private String name;
 
-	public Deck() {
+	public Deck(String name) {
 		deck = new Stack<Card>();
+		this.setName(name);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	private Stack<Card> getDeck() {
@@ -30,45 +40,41 @@ public class Deck {
 		return getDeck().pop();
 	}
 
-	public Card addCardToDeck(Card card) {
-		getDeck().add(card);
-		return card;
-	}
-
 	public void addAll(Deck otherDeck) {
 		getDeck().addAll(otherDeck.getDeck());
 	}
 
-	public void clear() {
-		getDeck().clear();
-	}
-
 	public void shuffle() {
+		// System.out.println("Top 10 cards before shuffle: \n" + getTopTenCards());
+		System.out.println(String.format("Shuffling %s ...\n", getName()));
 		Collections.shuffle(getDeck());
-	}
-
-	public void checkDeckSize(Deck deck) {
-		Card tempTopCard = null;
-		if (getDeck().isEmpty()) {
-			System.out.println("Replenish Game Deck");
-			tempTopCard = deck.pop();
-			getDeck().addAll(deck.getDeck());
-			deck.clear();
-			shuffle();
-			deck.addCardToDeck(tempTopCard);
-		}
+		// System.out.println("Top 10 cards after shuffle: \n" + getTopTenCards());
 	}
 
 	public int size() {
 		return getDeck().size();
 	}
 
-	public String getAllCards() {
-		String output = "";
-		for (Card card : getDeck()) {
-			output += card.toString() + "\n";
+	public void clear() {
+		getDeck().clear();
+	}
+
+	public Card addCardToDeck(Card card) {
+		getDeck().add(card);
+		return card;
+	}
+
+	public void checkDeckSize(Deck deck) {
+		Card tempTopCard = null;
+		if (getDeck().isEmpty()) {
+			System.out.println("\nReplenish " + getName());
+			tempTopCard = deck.pop();
+			getDeck().addAll(deck.getDeck());
+			deck.clear();
+			shuffle();
+			deck.addCardToDeck(tempTopCard);
+			System.out.println(String.format("Done replenishing. %s has %d cards", getName(), size()));
 		}
-		return output;
 	}
 
 	public void createCards() {
@@ -92,14 +98,22 @@ public class Deck {
 					}
 					addCardToDeck(card);
 				}
-
 			}
 		}
+		System.out.println(String.format("%s - created and added %d cards", getName(), size()));
+	}
+
+	public String getTopTenCards() {
+		String output = "";
+		for (int i = 0; i < 10; i++) {
+			output += getDeck().get(i).toString() + "\n";
+		}
+		return output;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("Deck size: %d\nCards:\n%s", size(), getAllCards());
+		return String.format("%s size: %d", getName(), size());
 	}
 
 }

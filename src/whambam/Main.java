@@ -39,42 +39,45 @@ public class Main {
 //		
 //		System.out.println("Helo");
 		
-//		GameEngine ge = new GameEngine();
-//		ge.currentPlayer = new Player("Tommy");
-//		System.out.println(ge.currentPlayer.printHand());
-//
-//		ge.gameDeck.createCards();
-//		ge.gameDeck.shuffle();
-//		
-//		ge.inPlayDeck.addCardToDeck(new ActionCard("Blue", 10));
-////		ge.gameDeck.addCardToDeck(new ActionCard("Purple", 9));
-//		System.out.println(ge.handleActionCard());
-//		System.out.println(ge.currentPlayer.printHand());
-//		System.out.println(ge.inPlayDeck.peek());
+// 		GameEngine ge = new GameEngine();
+// 		ge.currentPlayer = new Player("Tommy");
+// 		System.out.println(ge.currentPlayer.printHand());
+
+// 		ge.gameDeck.createCards();
+// 		ge.gameDeck.shuffle();
+		
+// 		ge.inPlayDeck.addCardToDeck(new ActionCard("Blue", 10));
+// //		ge.gameDeck.addCardToDeck(new ActionCard("Purple", 9));
+// 		System.out.println(ge.handleActionCard());
+// 		System.out.println(ge.currentPlayer.printHand());
+// 		System.out.println(ge.inPlayDeck.peek());
 		
 //		ArrayList<Player> list = null;
 //		if (list.add(new Player("Tommy")))
 //			System.out.println(list.toString());
 		
 		
-//		GameEngine ge = new GameEngine();
-//		Deck gameDeck = ge.gameDeck;
-//		Deck playDeck = ge.inPlayDeck;
-//		PlayerManager pm = ge.playerM;
-//		
-//		pm.createPlayer(4);
-//		ge.currentPlayer = pm.getPlayer(0);
+		GameEngine ge = new GameEngine();
+		Deck gameDeck = ge.gameDeck;
+		Deck playDeck = ge.inPlayDeck;
+		PlayerManager pm = ge.playerM;
+		
+		pm.createPlayer(4);
+		ge.currentPlayer = pm.getPlayer(0);
 //
-//		gameDeck.createCards();
-//		gameDeck.shuffle();
-//		pm.deal(5, gameDeck);
+		gameDeck.createCards();
+		gameDeck.shuffle();
+		pm.deal(5, gameDeck);
 //		
 //		
-//		playDeck.addCardToDeck(new ActionCard("White", 15));
-//		gameDeck.addCardToDeck(new ActionCard("White", 15));
-//		System.out.println(ge.handleActionCard());
-//		System.out.println(ge.currentPlayer.printHand());
-//		pm.scoreGame();
+		playDeck.addCardToDeck(new ActionCard("White", 15));
+		gameDeck.addCardToDeck(new ActionCard("White", 15));
+		System.out.println("\nTop Card in Play: " + gameDeck.peek());
+		System.out.println("Current Player: " + ge.currentPlayer.getName());
+		ge.handleActionCard();
+		// System.out.println(ge.currentPlayer.printHand());
+		System.out.println("\n*** Round OVER ***\n");
+		pm.scoreGame();
 //		if (pm.hasChampion(20))
 //			System.out.println("\n" + pm.printChampions());
 	}
