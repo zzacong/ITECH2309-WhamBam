@@ -57,31 +57,29 @@ public class Main {
 //			System.out.println(list.toString());
 		
 		
-		GameEngine ge = new GameEngine();
-		Deck gameDeck = ge.gameDeck;
-		Deck playDeck = ge.inPlayDeck;
-		PlayerManager pm = ge.playerM;
+		// GameEngine ge = new GameEngine();
+		// Deck gameDeck = ge.gameDeck;
+		// Deck playDeck = ge.inPlayDeck;
+		// PlayerManager pm = ge.playerM;
 		
-		pm.createPlayer(4);
-		ge.currentPlayer = pm.getPlayer(0);
-//
-		gameDeck.createCards();
-		gameDeck.shuffle();
-		pm.deal(5, gameDeck);
-//		
-//		
-		playDeck.addCardToDeck(new ActionCard("White", 15));
-		gameDeck.addCardToDeck(new ActionCard("White", 15));
-		System.out.println("\nTop Card in Play: " + gameDeck.peek());
-		System.out.println("Current Player: " + ge.currentPlayer.getName());
-		ge.handleActionCard();
+		// pm.createPlayers(4);
+		// ge.currentPlayer = pm.getPlayer(0);
+		// gameDeck.createCards();
+		// gameDeck.shuffle();
+		// pm.deal(5, gameDeck);
+
+		// playDeck.addCardToDeck(new ActionCard("White", 15));
+		// gameDeck.addCardToDeck(new ActionCard("White", 15));
+		// System.out.println("\nTop Card in Play: " + gameDeck.peek());
+		// System.out.println("Current Player: " + ge.currentPlayer.getName());
+		// ge.handleActionCard();
 		// System.out.println(ge.currentPlayer.printHand());
-		System.out.println("\n*** Round OVER ***\n");
-		pm.scoreGame();
+// 		System.out.println("\n*** Round OVER ***\n");
+// 		pm.scoreGame();
 //		if (pm.hasChampion(20))
 //			System.out.println("\n" + pm.printChampions());
 	}
-	
+
 //	static String formatCardName(String input) {
 //		String[] arr = input.split(" ");	
 //		return String.join(" ", capitalised(arr[0]), capitalised(arr[1]));

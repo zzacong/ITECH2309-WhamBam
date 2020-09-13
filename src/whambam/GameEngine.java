@@ -86,17 +86,20 @@ public class GameEngine {
 					roundComplete = true;
 					break;
 				case 10:
-					System.out.print(String.format("The next card is Wham! card - %s.", card));
+					System.out.print(
+							String.format("The next card is Wham! card - %s.", card));
 					break;
 				default:
-					System.out.print(String.format("The next card is number card - %s.", card));
+					System.out.print(
+							String.format("The next card is number card - %s.", card));
 					break;
 			}
 			cardPenalty = actionCard.cardPenalty(card);
 			System.out.println(String.format("  Penalty: pick up %d cards", cardPenalty));
 		} else { // Wham!
 			cardPenalty = actionCard.cardPenalty(actionCard);
-			System.out.println(String.format("Wham Card Active!  Penalty: pick up %d cards", cardPenalty));
+			System.out.println(
+					String.format("Wham Card Active!  Penalty: pick up %d cards", cardPenalty));
 		}
 		// Perform penalty, pick cards from game deck
 		for (int i = 0; i < cardPenalty; i++) {
@@ -122,7 +125,8 @@ public class GameEngine {
 			if (chosenCardName.equalsIgnoreCase("N")) {
 				// choosing to pick up. Needs to not have a valid card to play in hand.
 				if (currentPlayer.cardInHand(inPlayDeck.peek())) {
-					System.out.println("Unable to pickup card: you have at least one valid card to play in your hand.");
+					System.out.println(
+							"Unable to pickup card: you have at least one valid card to play in your hand.");
 				} else {
 					// pick up card and end turn.
 					currentPlayer.pickupCard(pickFromGameDeck());
@@ -167,7 +171,7 @@ public class GameEngine {
 	private void createPlayers() {
 		System.out.println("Enter number of player: ");
 		int numOfPlayer = obtainValidInt();
-		playerM.createPlayer(numOfPlayer);
+		playerM.createPlayers(numOfPlayer);
 	}
 
 	private void createCards() {
@@ -177,7 +181,6 @@ public class GameEngine {
 		gameDeck.shuffle();
 	}
 
-	// Delegate
 	private void deal() {
 		playerM.deal(STARTING_CARD_COUNT, gameDeck);
 	}
@@ -186,7 +189,6 @@ public class GameEngine {
 		playerM.scoreGame();
 	}
 
-	// Extract
 	private void checkGameDeckSize() {
 		gameDeck.checkDeckSize(inPlayDeck);
 	}

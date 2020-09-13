@@ -50,6 +50,14 @@ public class Deck {
 		Collections.shuffle(getDeck());
 		// System.out.println("Top 10 cards after shuffle: \n" + getTopTenCards());
 	}
+	
+	public String getTopTenCards() {
+		String output = "";
+		for (int i = 0; i < 10; i++) {
+			output += getDeck().get(i).toString() + "\n";
+		}
+		return output;
+	}
 
 	public int size() {
 		return getDeck().size();
@@ -73,7 +81,9 @@ public class Deck {
 			deck.clear();
 			shuffle();
 			deck.addCardToDeck(tempTopCard);
-			System.out.println(String.format("Done replenishing. %s has %d cards", getName(), size()));
+			System.out.println(
+					String.format("Done replenishing. %s has %d cards", getName(), size())
+			);
 		}
 	}
 
@@ -101,14 +111,6 @@ public class Deck {
 			}
 		}
 		System.out.println(String.format("%s - created and added %d cards", getName(), size()));
-	}
-
-	public String getTopTenCards() {
-		String output = "";
-		for (int i = 0; i < 10; i++) {
-			output += getDeck().get(i).toString() + "\n";
-		}
-		return output;
 	}
 
 	@Override

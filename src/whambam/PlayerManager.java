@@ -119,13 +119,14 @@ public class PlayerManager {
 		return getChampions().size() > 0 ? true : false; // return true if there are champions
 	}
 
-	public void createPlayer(int numOfPlayer) {
+	public void createPlayers(int numOfPlayer) {
 		System.out.println(String.format("Creating %d players ...", numOfPlayer));
 		for (int i = 0; i < numOfPlayer; i++) {
 			System.out.println(String.format("\nEnter Player %d name: ", i + 1));
 			String name = userInput.nextLine();
 			if (players.add(new Player(name))) {
-				System.out.println(String.format("Player %s created with starting score = %d", getPlayer(i).getName(), getPlayer(i).getScore()));
+				System.out.println(String.format("Player %s created with starting score = %d", 
+				getPlayer(i).getName(), getPlayer(i).getScore()));
 			}
 		}
 	}
