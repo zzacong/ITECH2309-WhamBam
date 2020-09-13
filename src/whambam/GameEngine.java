@@ -44,7 +44,7 @@ public class GameEngine {
 
 			System.out.println("\n" + gameDeck.toString());
 			System.out.println(inPlayDeck.toString());
-			System.out.println("Next card in game: " + gameDeck.peek());
+//			System.out.println("Next card in game: " + gameDeck.peek());
 			// show the top card and current player
 			System.out.println("\nTop Card in Play: " + inPlayDeck.peek());
 			System.out.println("Current Player: " + currentPlayer.getName());
