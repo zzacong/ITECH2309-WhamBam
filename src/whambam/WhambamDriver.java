@@ -10,9 +10,9 @@ package whambam;
 
 public class WhambamDriver {
 
-	public static void main(String[] args) {
-		GameEngine GE = new GameEngine();
-		GE.play();
-	}
+    public static void main(String[] args) {
+        GameEngine GE = new GameEngine();
+        GE.play();
+    }
 
 }

@@ -9,6 +9,6 @@ package whambam;
  */
 public interface Actionable {
 
-	public int cardPenalty(Card card);
+    public int cardPenalty(Card card);
 
 }
